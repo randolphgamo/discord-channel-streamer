@@ -1,10 +1,11 @@
+
 function Header() {
   return (
     <>
     <div className="grid place-items-center">
       <img
         alt="app logo"
-        src="public/logo-app.png"
+        src="logo-app.png"
         className="w-16 h-16 rounded-full ml-14 mt-2"
       />
       </div>
