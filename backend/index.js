@@ -7,7 +7,9 @@ const botToken = process.env.DISCORD_BOT_TOKEN;
 
 const channelId = process.env.DISCORD_CHANNEL_ID;
 
+const frontend = process.env.FRONTEND_URL || "http://localhost:5173";
 const PORT = process.env.port || 5000;
+
 
 // Create a new Discord client
 const client = new Client({
@@ -86,7 +88,7 @@ client.on("messageCreate", async (message) => {
 
 const io = new Server({
   cors: {
-    origin: "http://localhost:5173",
+    origin: frontend,
   },
 });
 io.on("connection", (socket) => {

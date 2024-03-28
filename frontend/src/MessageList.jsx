@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
+
+
+
 function MessageList() {
+  
+  const backend = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
+  
   //holds the list of messages
   const [messages, setMessages] = useState([]);
 
+
+
+
   useEffect(() => {
     //connect to our server
-    const socket = io("http://localhost:5000");
+    const socket = io(backend);
 
     //listen for initial messages
     socket.on("initial-messages", (messages) => setMessages(messages));
