@@ -10,5 +10,13 @@ Relevant concepts covered
 * discord.js
 * socket.io library
 
-You can use the app to stream messages from any other channel, provided you enter your <strong>channel id</strong> as well as your <strong>Bot token</strong> as environmental variables.
+You can use the app to stream messages from any other channel, provided you enter your <strong>channel id (DISCORD_CHANNEL_ID)</strong> as well as your <strong>Bot token (DISCORD_BOT_TOKEN) </strong> as backend environmental variables.
 
+
+
+#### Acknowledgments:  ❤️
+* Thanks to lamadev for this [beautiful tutorial](https://www.youtube.com/watch?v=7vVqMR96T5o&t=2224s) on using socket.io 
+* Thanks to railway for setting up this challenge
+
+#### Possible updates
+* Introduce a filter
