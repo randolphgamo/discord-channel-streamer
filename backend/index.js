@@ -2,11 +2,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { Client, GatewayIntentBits } from "discord.js";
 import { Server } from "socket.io";
-import express from "express";
-import http from "http";
-
-
-const app = express();
 
 const botToken = process.env.DISCORD_BOT_TOKEN;
 
@@ -14,11 +9,6 @@ const channelId = process.env.DISCORD_CHANNEL_ID;
 
 const frontend = process.env.FRONTEND_URL || "http://localhost:5173";
 const port = process.env.PORT || 5000;
-
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 // Create a new Discord client
 const client = new Client({
@@ -40,7 +30,7 @@ client.on("ready", async () => {
   if (channel) {
     //fetch the previous 100 messages
     const fetchedMessages = await channel.messages.fetch({ limit: 100 });
-    messages.push( 
+    messages.push(
       ...fetchedMessages.map((message) => {
         return {
           author: message.author.tag,
@@ -49,11 +39,10 @@ client.on("ready", async () => {
           timestamp: new Date(message.createdTimestamp).toLocaleString(),
           // attach_name: message.attachments.map((attachment) => attachment.name),
           // attach_url: message.attachments.map((attachment) => attachment.url),
-          attachments: message.attachments.map((attachment) => ( {
+          attachments: message.attachments.map((attachment) => ({
             name: attachment.name,
-            url: attachment.url
-          })
-          )
+            url: attachment.url,
+          })),
         };
       })
     );
@@ -66,7 +55,6 @@ client.on("messageCreate", async (message) => {
 
   // Check if the message is in the specified channel
   if (message.channelId === channelId) {
-    
     // Format the time
     const formattedTime = new Date(message.createdTimestamp).toLocaleString();
 
@@ -74,15 +62,14 @@ client.on("messageCreate", async (message) => {
       author: message.author.tag,
       content: message.content,
       id: message.id,
-      timestamp:  new Date(message.createdTimestamp).toLocaleString(),
+      timestamp: new Date(message.createdTimestamp).toLocaleString(),
       // attach_name: message.attachments.map((attachment) => attachment.name),
       // attach_url: message.attachments.map((attachment) => attachment.url),
 
-      attachments: message.attachments.map((attachment) => ( {
+      attachments: message.attachments.map((attachment) => ({
         name: attachment.name,
-        url: attachment.url
-      })
-      )
+        url: attachment.url,
+      })),
     };
 
     io.emit("new-message", newMessage);
@@ -95,14 +82,9 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-
-const server = http.createServer(app);
-
-
-const io = new Server(server, {
+const io = new Server({
   cors: {
-   // origin: frontend,
-   origin: "*" //just for test
+    origin: frontend,
   },
 });
 io.on("connection", (socket) => {
@@ -117,11 +99,6 @@ io.on("connection", (socket) => {
 });
 
 //our socket server listens at port 5000
-//io.listen(PORT);
-
-
-server.listen(port, () => {
-  console.log('Server listening on port', port);
-});
+io.listen(port);
 
 client.login(botToken);
