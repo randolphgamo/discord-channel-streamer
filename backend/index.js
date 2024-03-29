@@ -88,7 +88,8 @@ client.on("messageCreate", async (message) => {
 
 const io = new Server({
   cors: {
-    origin: frontend,
+   // origin: frontend,
+   origin: "*" //just for test
   },
 });
 io.on("connection", (socket) => {
