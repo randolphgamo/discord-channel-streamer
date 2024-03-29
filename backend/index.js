@@ -2,6 +2,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { Client, GatewayIntentBits } from "discord.js";
 import { Server } from "socket.io";
+import express from "express";
+import http from "http";
+
+
+const app = express();
 
 const botToken = process.env.DISCORD_BOT_TOKEN;
 
@@ -86,7 +91,11 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-const io = new Server({
+
+const server = http.createServer(app);
+
+
+const io = new Server(server, {
   cors: {
    // origin: frontend,
    origin: "*" //just for test
@@ -104,6 +113,11 @@ io.on("connection", (socket) => {
 });
 
 //our socket server listens at port 5000
-io.listen(PORT);
+//io.listen(PORT);
+
+
+server.listen(PORT, () => {
+  console.log('Server listening on port', PORT);
+});
 
 client.login(botToken);
