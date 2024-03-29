@@ -21,7 +21,7 @@ function Header() {
         On initial loading it will fetch the <strong>last 100 messages.</strong>
         Please{" "}
         <a
-          href="https://discord.gg/NXPx5BvU"
+          href="https://discord.gg/NXPx5BvU" target="_blank"
           className="text-blue-500 underline hover:text-blue-800"
         >
           join
